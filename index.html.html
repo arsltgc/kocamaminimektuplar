@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Mektup Kutusu</title>
+  <style>
+    body {
+      font-family: 'Courier New', monospace;
+      background-color: #ffe6f0;
+      text-align: center;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px pink;
+      font-size: 18px;
+      white-space: pre-line;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: float 5s infinite;
+      opacity: 0.7;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: -10px; }
+    @keyframes float {
+      0% { bottom: 0; opacity: 0.7; }
+      100% { bottom: 100%; opacity: 0; }
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background-color: #ff99c8;
+      color: white;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mini Mektup Kutusu</h1>
+  <div class="card" id="letterBox">Sürpriz mektuplar 19 Mayıs’ta başlıyor!</div>
+
+  <button onclick="document.getElementById('bgmusic').play()">Müziği Başlat</button>
+
+  <audio id="bgmusic" loop>
+    <source src="carousel.mp3" type="audio/mpeg">
+    Tarayıcınız bu ses dosyasını desteklemiyor.
+  </audio>
+
+  <script>
+    // Kalp efekti
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 500);
+
+    // Mektuplar
+    const letters = [
+      "Seni bana getiren tüm ihtimallere\nteşekkürler",
+      "Yüzünü görmediğim gün içimde\nyıldızlar sönük.",
+      "Bu dünyada üç kez şükrettiysem\nikisi sanadır",
+      "Hayatım boyunca aradığım\nşey küçük bir şehrin basit bir\npenceresindeymiş :)",
+      "Dizlerimiz titreyerek yürüyeceğimiz\nzamanlara dek...",
+      "Şimdi şiir bence senin yüzündür.",
+      "Yüzünü görünce gözlerimde beliren\nparıltı karanlık çağı bile aydınlatır.",
+      "Seninle her şey tamam, ne eksikse\nyerine sensin.",
+      "Benden gizli verdiğin tüm savaşlar\niçin seninle gurur duyuyorum."
+    ];
+
+    const startDate = new Date("2025-05-19");
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+
+    const letterBox = document.getElementById("letterBox");
+
+    if (diffDays >= 0 && diffDays < letters.length) {
+      letterBox.innerText = letters[diffDays];
+    } else if (diffDays >= letters.length) {
+      letterBox.innerText = "Tüm mektuplar açıldı. Umarım her biri seni mutlu etmiştir.";
+    }
+    // Aksi halde: "Sürpriz mektuplar 19 Mayıs’ta başlıyor!" mesajı sabit kalır
+  </script>
+</body>
+</html>
